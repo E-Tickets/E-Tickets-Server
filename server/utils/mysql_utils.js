@@ -32,5 +32,5 @@ let sqlQuery = function (sql, values) {
 };
 
 module.exports = {
-    dbSqlQuery: sqlQuery
+    mysqlQuery: sqlQuery
 };
