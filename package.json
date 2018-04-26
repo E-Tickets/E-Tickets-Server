@@ -1,0 +1,19 @@
+{
+    "name": "e-tickets-server",
+    "main": "app.js",
+    "scripts": {
+        "start": "node ./server/app.js"
+    },
+    "author": "Qubic",
+    "license": "MIT",
+    "dependencies": {
+        "koa": "^2.0.0",
+        "koa-bodyparser": "^3.2.0",
+        "koa-router": "^7.0.0",
+        "mysql": "^2.15.0"
+    },
+    "engines": {
+        "node": ">= 7.0.0",
+        "npm": ">= 3.0.0"
+    }
+}
