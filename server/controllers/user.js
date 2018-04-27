@@ -35,7 +35,7 @@ const user = {
             ctx.response.status = 401;
             ctx.response.body = {
                 'status': 'UNAUTHORIZED',
-                'message': 'Permission denied.',
+                'message': 'Permission denied. Please login.',
                 'data': {}
             };
         } else {
