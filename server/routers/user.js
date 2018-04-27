@@ -5,7 +5,7 @@ const userController = require('../controllers/user');
 router.post('/', userController.register);
 
 router.get('/:username', userController.queryUserInfo);
-router.put('/:username', userController.updateUserInfo);
+router.patch('/:username', userController.updateUserInfo);
 
 
 module.exports = router;

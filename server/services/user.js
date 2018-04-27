@@ -10,7 +10,7 @@ const user = {
             await userModel.create(username, 
                     md5(password), nickname, avatar);
             res.status = 'OK';
-            res.message = 'Register successful.';
+            res.message = 'Register successfully.';
             res.data = {
                 'username': username,
                 'nickname': nickname,
