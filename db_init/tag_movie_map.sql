@@ -11,7 +11,7 @@ CREATE TABLE `tag_movie_map` (
     `tag_id` int NOT NULL,
     `movie_id` int NOT NULL,
     
-    PRIMARY KEY (`tag_id, movie_id`),
+    PRIMARY KEY (`tag_id`, `movie_id`),
     FOREIGN KEY (`tag_id`) REFERENCES `tag`(`tag_id`),
     FOREIGN KEY (`movie_id`) REFERENCES `movie`(`movie_id`),
     INDEX (`tag_id`)

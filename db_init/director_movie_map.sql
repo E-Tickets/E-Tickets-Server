@@ -11,7 +11,7 @@ CREATE TABLE `director_movie_map` (
     `director_id` int NOT NULL,
     `movie_id` int NOT NULL,
     
-    PRIMARY KEY (`director_id, movie_id`),
+    PRIMARY KEY (`director_id`, `movie_id`),
     FOREIGN KEY (`director_id`) REFERENCES `director`(`director_id`),
     FOREIGN KEY (`movie_id`) REFERENCES `movie`(`movie_id`),
     INDEX (`director_id`)
