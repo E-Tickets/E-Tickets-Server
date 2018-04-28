@@ -31,7 +31,9 @@ const user = {
         let nickname = ctx.request.body.nickname || '';
         let avatar = ctx.request.body.avatar || '';
 
-        if (ctx.session.username !== username) {
+        if (!ctx.session.hasOwnProperty('idInfo')
+            || ctx.session.idInfo.username !== username 
+            || ctx.session.idInfo.identity !== 'user') {
             ctx.response.status = 401;
             ctx.response.body = {
                 'status': 'UNAUTHORIZED',
