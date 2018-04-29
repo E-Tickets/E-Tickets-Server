@@ -12,5 +12,5 @@ CREATE TABLE `tag` (
     `tag_name` varchar(64) NOT NULL,
     
     PRIMARY KEY (`tag_id`),
-    INDEX (`tag_name`)
+    UNIQUE KEY (`tag_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
