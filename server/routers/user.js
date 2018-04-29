@@ -1,11 +1,23 @@
 const router = require('koa-router')();
+const multer = require('koa-multer');
 
+const uploadUtils = require('../utils/upload_utils');
 const userController = require('../controllers/user');
 
+const upload = multer({
+    storage: uploadUtils.avatarEngine
+});
+
+/*Register*/
 router.post('/', userController.register);
 
+/*Get/Update User-Info*/
 router.get('/:username', userController.queryUserInfo);
 router.patch('/:username', userController.updateUserInfo);
+
+/*Upload avatar*/
+router.post('/avatar', upload.single('file'), 
+        userController.uploadAvatar);
 
 
 module.exports = router;

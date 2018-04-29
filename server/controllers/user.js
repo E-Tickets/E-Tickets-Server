@@ -1,4 +1,5 @@
 const bodyParser = require('koa-bodyparser');
+const multer = require('koa-multer');
 
 const userService = require('../services/user');
 const httpStatus = require('../utils/res_status_utils');
@@ -47,6 +48,18 @@ const user = {
             ctx.response.status = httpStatusCode;
             ctx.response.body = res;
         }
+    },
+
+    async uploadAvatar(ctx) {
+        let avatarPath = '/images/avatar/' + ctx.req.file.filename;
+        ctx.status = 200;
+        ctx.body = {
+            'status': 'OK',
+            'message': 'Upload successfully.',
+            'data': {
+                'avatar': avatarPath
+            }
+        };
     }
 };
 
