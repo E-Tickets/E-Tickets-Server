@@ -3,7 +3,7 @@ const httpStatus = require('../utils/res_status_utils');
 
 const movie = {
     async createMovie(ctx) {
-        let movie_title = ctx.request.body.movie_title || '';
+        let movieTitle = ctx.request.body.movie_title || '';
         let poster = ctx.request.body.poster || '';
         let director = ctx.request.body.director || '';
         let actors = ctx.request.body.actors;
@@ -18,13 +18,63 @@ const movie = {
                 'data': {}
             };
         } else {
-            let res = await movieService.createMovie(movie_title, 
+            let res = await movieService.createMovie(movieTitle, 
                     poster, director, actors, tags);
             
             let httpStatusCode = httpStatus[res.status];
             ctx.response.status = httpStatusCode;
             ctx.response.body = res;
         }
+    },
+
+    async searchMovies(ctx) {
+        let keyWord = ctx.params.key;
+
+        let res = await movieService.searchMovies(keyWord);
+
+        let httpStatusCode = httpStatus[res.status];
+        ctx.response.status = httpStatusCode;
+        ctx.response.body = res;
+    },
+
+    async searchMoviesByTitle(ctx) {
+        let keyWord = ctx.params.title;
+
+        let res = await movieService.searchMoviesByTitle(keyWord);
+
+        let httpStatusCode = httpStatus[res.status];
+        ctx.response.status = httpStatusCode;
+        ctx.response.body = res;
+    },
+
+    async searchMoviesByDirector(ctx) {
+        let keyWord = ctx.params.director;
+
+        let res = await movieService.searchMoviesByDirector(keyWord);
+
+        let httpStatusCode = httpStatus[res.status];
+        ctx.response.status = httpStatusCode;
+        ctx.response.body = res;
+    },
+
+    async searchMoviesByActor(ctx) {
+        let keyWord = ctx.params.actor;
+
+        let res = await movieService.searchMoviesByActor(keyWord);
+
+        let httpStatusCode = httpStatus[res.status];
+        ctx.response.status = httpStatusCode;
+        ctx.response.body = res;
+    },
+
+    async searchMoviesByTag(ctx) {
+        let keyWord = ctx.params.tag;
+
+        let res = await movieService.searchMoviesByTag(keyWord);
+
+        let httpStatusCode = httpStatus[res.status];
+        ctx.response.status = httpStatusCode;
+        ctx.response.body = res;
     }
 };
 

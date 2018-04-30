@@ -57,7 +57,6 @@ const movieUtils = {
 
         let res = await mysqlUtils.mysqlQuery(_sql);
 
-        console.log(res[0]);
         return res[0].movie_id;
     },
 
@@ -117,6 +116,130 @@ const movieUtils = {
         } catch(err) {
             throw err;
         }
+    },
+
+    async searchDirectorIds(dirKeyWord) {
+        let _sql = `SELECT director_id
+                    FROM director
+                    WHERE director_name like ?`;
+        let values = [dirKeyWord + '%'];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+        let directorIds = res.map((dirObj) => {
+            return dirObj.director_id;
+        });
+        return directorIds;
+    },
+
+    async searchActorIds(actorKeyWord) {
+        let _sql = `SELECT actor_id
+                    FROM actor
+                    WHERE actor_name like ?`;
+        let values = [actorKeyWord + '%'];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+        let actorIds = res.map((actorObj) => {
+            return actorObj.actor_id;
+        });
+        return actorIds;
+    },
+
+    async searchTagIds(tagKeyWord) {
+        let _sql = `SELECT tag_id
+                    FROM tag
+                    WHERE tag_name like ?`;
+        let values = [tagKeyWord + '%'];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+        let tagIds = res.map((tagObj) => {
+            return tagObj.tag_id;
+        });
+        return tagIds;
+    },
+
+    async searchMovieIdsByDirectorIds(directorIds) {
+        let movies = [];
+        for (let dirId of directorIds) {
+            let _sql = `SELECT movie_id 
+                    FROM director_movie_map
+                    WHERE director_id=?`;
+            let values = [dirId];
+
+            let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+            movies = movies.concat(res);
+        }
+
+        let movieIds = movies.map((movieObj) => {
+            return movieObj.movie_id;
+        });
+
+        return movieIds;
+    },
+
+    async searchMovieIdsByActorIds(actorIds) {
+        let movies = [];
+        for (let actorId of actorIds) {
+            let _sql = `SELECT movie_id 
+                    FROM actor_movie_map
+                    WHERE actor_id=?`;
+            let values = [actorId];
+
+            let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+            movies = movies.concat(res);
+        }
+
+        let movieIds = movies.map((movieObj) => {
+            return movieObj.movie_id;
+        });
+
+        return movieIds;
+    },
+
+    async searchMovieIdsByTagIds(tagIds) {
+        let movies = [];
+        for (let tagId of tagIds) {
+            let _sql = `SELECT movie_id 
+                    FROM tag_movie_map
+                    WHERE tag_id=?`;
+            let values = [tagId];
+
+            let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+            movies = movies.concat(res);
+        }
+
+        let movieIds = movies.map((movieObj) => {
+            return movieObj.movie_id;
+        });
+
+        return movieIds;
+    },
+
+    async searchMoviesByTitle(titleKey) {
+        let _sql = `SELECT title, poster, director, actors, tags
+                    FROM movie
+                    WHERE title like ?;`;
+        let values = [titleKey + '%'];
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+        return res;
+    },
+
+    async searchMoviesByMovieIds(movieIds) {
+        let moviesInfo = [];
+        for (let movieId of movieIds) {
+            let _sql = `SELECT title, poster, director, actors, tags
+                        FROM movie
+                        WHERE movie_id=?;`;
+            let values = [movieId];
+
+            let movieInfo = await mysqlUtils.mysqlQuery(_sql, values);
+
+            moviesInfo = moviesInfo.concat(movieInfo);
+        }
+
+        return moviesInfo;
     }
 };
 
@@ -144,6 +267,48 @@ const movie = {
             await mysqlUtils.mysqlQuery(`ROLLBACK;`);
             throw err;
         }
+    },
+
+    async searchMoviesByTitle(movieTitle) {
+        let res = await movieUtils.searchMoviesByTitle(movieTitle);
+
+        return res;
+    },
+
+    async searchMoviesByDirector(director) {
+        let directorIds = await movieUtils.searchDirectorIds(director);
+        let moviesInfo = [];
+
+        if (directorIds.length > 0) {
+            let movieIds = await movieUtils.searchMovieIdsByDirectorIds(directorIds);
+            moviesInfo = await movieUtils.searchMoviesByMovieIds(movieIds);
+        }
+
+        return moviesInfo;
+    },
+
+    async searchMoviesByActor(actor) {
+        let actorIds = await movieUtils.searchActorIds(actor);
+        let moviesInfo = [];
+
+        if (actorIds.length > 0) {
+            let movieIds = await movieUtils.searchMovieIdsByActorIds(actorIds);
+            moviesInfo = await movieUtils.searchMoviesByMovieIds(movieIds);
+        }
+
+        return moviesInfo;
+    },
+
+    async searchMoviesByTag(tag) {
+        let tagIds = await movieUtils.searchTagIds(tag);
+        let moviesInfo = [];
+
+        if (tagIds.length > 0) {
+            let movieIds = await movieUtils.searchMovieIdsByTagIds(tagIds);
+            moviesInfo = await movieUtils.searchMoviesByMovieIds(movieIds);
+        }
+
+        return moviesInfo;
     }
 };
 
