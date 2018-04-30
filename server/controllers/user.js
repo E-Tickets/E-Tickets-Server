@@ -1,4 +1,5 @@
 const bodyParser = require('koa-bodyparser');
+const multer = require('koa-multer');
 
 const userService = require('../services/user');
 const httpStatus = require('../utils/res_status_utils');
@@ -31,7 +32,9 @@ const user = {
         let nickname = ctx.request.body.nickname || '';
         let avatar = ctx.request.body.avatar || '';
 
-        if (ctx.session.username !== username) {
+        if (!ctx.session.hasOwnProperty('idInfo')
+            || ctx.session.idInfo.username !== username 
+            || ctx.session.idInfo.identity !== 'user') {
             ctx.response.status = 401;
             ctx.response.body = {
                 'status': 'UNAUTHORIZED',
@@ -44,6 +47,30 @@ const user = {
             let httpStatusCode = httpStatus[res.status];
             ctx.response.status = httpStatusCode;
             ctx.response.body = res;
+        }
+    },
+
+    async uploadAvatar(ctx) {
+        let username = ctx.params.username || '';
+        if (!ctx.session.hasOwnProperty('idInfo')
+            || ctx.session.idInfo.username !== username 
+            || ctx.session.idInfo.identity !== 'user') {
+            ctx.response.status = 401;
+            ctx.response.body = {
+                'status': 'UNAUTHORIZED',
+                'message': 'Permission denied. Please login.',
+                'data': {}
+            };
+        } else {
+            let avatarPath = '/images/avatar/' + ctx.req.file.filename;
+            ctx.status = 200;
+            ctx.body = {
+                'status': 'OK',
+                'message': 'Upload successfully.',
+                'data': {
+                    'avatar': avatarPath
+                }
+            };
         }
     }
 };
