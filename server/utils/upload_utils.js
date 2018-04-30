@@ -12,7 +12,7 @@ const storageEngine = {
             let pointIndex = originalname.lastIndexOf('.');
     
             let filename = originalname.substr(0, pointIndex);
-            let format = originalname.substr(pointIndex+1);
+            let format = originalname.substr(pointIndex + 1);
     
             cb(null, filename + '-' + Date.now().toString() + '.' + format);
         }
@@ -26,7 +26,7 @@ const storageEngine = {
             let pointIndex = originalname.lastIndexOf('.');
     
             let filename = originalname.substr(0, pointIndex);
-            let format = originalname.substr(pointIndex+1);
+            let format = originalname.substr(pointIndex + 1);
     
             cb(null, filename + '-' + Date.now().toString() + '.' + format);
         }

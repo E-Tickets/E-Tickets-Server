@@ -16,7 +16,7 @@ router.get('/:username', userController.queryUserInfo);
 router.patch('/:username', userController.updateUserInfo);
 
 /*Upload avatar*/
-router.post('/avatar', upload.single('file'), 
+router.post('/avatar/:username', upload.single('avatar'), 
         userController.uploadAvatar);
 
 
