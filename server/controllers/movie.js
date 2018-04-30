@@ -27,6 +27,28 @@ const movie = {
         }
     },
 
+    async uploadPoster(ctx) {
+        if (!ctx.session.hasOwnProperty('idInfo')
+            || ctx.session.idInfo.identity !== 'admin') {
+            ctx.response.status = 401;
+            ctx.response.body = {
+                'status': 'UNAUTHORIZED',
+                'message': 'Permission denied. Please login as admin.',
+                'data': {}
+            };
+        } else {
+            let posterPath = '/images/poster/' + ctx.req.file.filename;
+            ctx.status = 200;
+            ctx.body = {
+                'status': 'OK',
+                'message': 'Upload successfully.',
+                'data': {
+                    'poster': posterPath
+                }
+            };
+        }
+    },
+
     async searchMovies(ctx) {
         let keyWord = ctx.params.key;
 
