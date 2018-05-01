@@ -21,7 +21,9 @@ const movieUtils = {
                     VALUES(?, ?, ?, ?, ?);`;
         let values = [title, poster, director, strActors, strTags];
 
-        await mysqlUtils.mysqlQuery(_sql, values);
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res.insertId;
     },
 
     async insertTagDb(tags) {
@@ -50,14 +52,6 @@ const movieUtils = {
 
             await mysqlUtils.mysqlQuery(_sql, values);
         }
-    },
-
-    async getLatestInsertMovieId() {
-        let _sql = `SELECT MAX(movie_id) as movie_id FROM movie;`;
-
-        let res = await mysqlUtils.mysqlQuery(_sql);
-
-        return res[0].movie_id;
     },
 
     async mapMovieTags(movie_id, tags) {
@@ -249,8 +243,8 @@ const movie = {
         await mysqlUtils.mysqlQuery(`BEGIN;`);
 
         try {
-            await movieUtils.insertMovieDb(movie_title, poster, director, actors, tags);
-            let movie_id = await movieUtils.getLatestInsertMovieId();
+            let movie_id = await movieUtils.insertMovieDb(movie_title, 
+                    poster, director, actors, tags);
 
             await movieUtils.insertTagDb(tags);
             await movieUtils.mapMovieTags(movie_id, tags);
