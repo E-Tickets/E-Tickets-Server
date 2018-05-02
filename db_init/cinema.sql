@@ -11,7 +11,9 @@ CREATE TABLE `cinema` (
     `cinema_id` int NOT NULL AUTO_INCREMENT,
     `cinema_name` varchar(64) NOT NULL,
     `cinema_location` varchar(64) NOT NULL,
+    `owner` varchar(64) NOT NULL,
     
     PRIMARY KEY (`cinema_id`),
+    FOREIGN KEY (`owner`) REFERENCES `cinema_owner`(`username`),
     KEY (`cinema_location`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
