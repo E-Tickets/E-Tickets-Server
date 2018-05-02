@@ -33,9 +33,12 @@ const cinema = {
         let sizeId = ctx.request.body.size_id;
         let size = ctx.request.body.size;
 
+        let verifyInfo = await cinemaService.verifyOwner(ownerUsername, cinemaId);
+
         if (!ctx.session.hasOwnProperty('idInfo')
             || ctx.session.idInfo.identity !== 'cinema_owner'
-            || ctx.session.idInfo.username !== ownerUsername) {
+            || ctx.session.idInfo.username !== ownerUsername
+            || !verifyInfo) {
             ctx.response.status = 401;
             ctx.response.body = {
                 'status': 'UNAUTHORIZED',

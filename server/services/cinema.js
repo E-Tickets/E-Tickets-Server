@@ -59,6 +59,16 @@ const cinema = {
         return res;
     },
 
+    async verifyOwner(username, cinemaId) {
+        let cinemasInfo = await cinemaModel.getCinemaInfo(cinemaId);
+
+        if (cinemasInfo.length > 0 && cinemasInfo[0].owner === username) {
+            return true;
+        }
+
+        return false;
+    },
+
     async getCinemaInfo(cinemaId) {
         let cinemasInfo = await cinemaModel.getCinemaInfo(cinemaId);
         let res = {};
