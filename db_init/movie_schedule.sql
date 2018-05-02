@@ -11,7 +11,7 @@ CREATE TABLE `movie_schedule` (
     `schedule_id` int NOT NULL AUTO_INCREMENT,
     `cinema_id` int NOT NULL,
     `hall_id` int NOT NULL,
-    `time` varchar(64) NOT NULL,
+    `time` bigint NOT NULL,
     `movie_id` int NOT NULL,
     `price` int NOT NULL,
     
