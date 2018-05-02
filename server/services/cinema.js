@@ -9,7 +9,7 @@ const cinema = {
                     .createCinema(ownerUsername, cinemaName, cinemaLoc);
 
             res.status = 'OK';
-            res.message = 'Create movie successfully.';
+            res.message = 'Create cinema successfully.';
             res.data = {
                 'cinema_id': cinemaId,
                 'owner': ownerUsername,
@@ -33,7 +33,7 @@ const cinema = {
                 try {
                     await cinemaModel.cearteMovieHall(cinemaId, hallId, sizeId, size);
                     res.status = 'OK';
-                    res.message = 'Create movie successfully.';
+                    res.message = 'Create movie hall successfully.';
                     res.data = {
                         'cinema_id': cinemaId,
                         'hall_id': hallId,
