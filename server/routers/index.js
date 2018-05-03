@@ -12,6 +12,8 @@ const cinema = require('./cinema');
 const cinemas = require('./cinemas');
 const schedule = require('./schedule');
 const schedules = require('./schedules');
+const order = require('./order');
+const orders = require('./orders');
 
 router.use('/api/user', user.routes());
 router.use('/api/admin', admin.routes());
@@ -25,5 +27,7 @@ router.use('/api/cinema', cinema.routes());
 router.use('/api/cinemas', cinemas.routes());
 router.use('/api/schedule', schedule.routes());
 router.use('/api/schedules', schedules.routes());
+router.use('/api/order', order.routes());
+router.use('/api/orders', orders.routes());
 
 module.exports = router;
