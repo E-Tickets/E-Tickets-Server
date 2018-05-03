@@ -18,9 +18,23 @@ const schedule = {
                     WHERE schedule_id=?;`;
         let values = [scheduleId];
 
-        let res = await mysqlUtils.mysqlQuery(_sql, values);
+        let scheduleRes = await mysqlUtils.mysqlQuery(_sql, values);
 
-        return res;
+        _sql = `SELECT seat
+                FROM ticket_order
+                WHERE schedule_id=?;`;
+        let seatRes = await mysqlUtils.mysqlQuery(_sql, values);
+
+        seatRes = seatRes.map((orderObj) => {
+            return orderObj.seat;
+        });
+
+        scheduleRes = scheduleRes.map((scheduleObj) => {
+            scheduleObj.seat = seatRes;
+            return scheduleObj;
+        });
+
+        return scheduleRes;
     },
 
     async searchScheduleByCinemaId(cinemaId, timeBegin, timeEnd) {
