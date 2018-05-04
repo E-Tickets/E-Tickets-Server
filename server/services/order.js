@@ -112,13 +112,19 @@ const order = {
         let res = {};
         
         try {
-            await orderModel.payOrder(orderId);
+            let paidInfo = await orderModel.payOrder(orderId);
             
-            res.status = 'OK';
-            res.message = 'Successful payment.';
-            res.data = {
-                'order_id': orderId
-            };
+            if (paidInfo.affectedRows > 0) {
+                res.status = 'OK';
+                res.message = 'Successful payment.';
+                res.data = {
+                    'order_id': orderId
+                };
+            } else {
+                res.status = 'NOT_FOUND';
+                res.message = 'Order does not exist or has been paid.';
+                res.data = {};
+            }
         } catch(err) {
             res.status = 'INTERNAL_ERROR';
             res.message = 'Failure to pay.'

@@ -78,10 +78,12 @@ const order = {
     async payOrder(orderId) {
         let _sql = `UPDATE ticket_order
                     SET is_paid=true
-                    WHERE order_id=?;`;
+                    WHERE order_id=? and NOT is_paid;`;
         let values = [orderId];
 
-        await mysqlUtils.mysqlQuery(_sql, values);
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+        
+        return res;
     },
 
     async deleteOrder(orderId) {
