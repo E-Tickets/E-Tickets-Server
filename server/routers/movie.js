@@ -10,6 +10,8 @@ const upload = multer({
 
 router.post('/', movieController.createMovie);
 
+router.get('/:movie_id', movieController.getMovieInfo);
+
 router.post('/poster', upload.single('poster'), 
         movieController.uploadPoster);
 
