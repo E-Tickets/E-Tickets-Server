@@ -42,7 +42,7 @@ const cinema = {
                     };
                 } catch(err) {
                     res.status = 'INTERNAL_ERROR';
-                    res.message = 'Cannot create this cinema.';
+                    res.message = 'Cannot create this movie hall.';
                     res.data = {};
                 }
             } else {

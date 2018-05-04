@@ -90,7 +90,7 @@ const schedule = {
             ctx.response.status = 401;
             ctx.response.body = {
                 'status': 'UNAUTHORIZED',
-                'message': 'Permission denied. You are not the owner of this cinema.',
+                'message': 'Permission denied. You are not the owner of this schedule.',
                 'data': {}
             };
         } else {
