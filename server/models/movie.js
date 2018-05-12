@@ -151,6 +151,17 @@ const movieUtils = {
         return tagIds;
     },
 
+    async getMovieInfo(movieId) {
+        let _sql = `SELECT *
+                    FROM movie
+                    WHERE movie_id=?;`;
+        let values = [movieId];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res;
+    },
+
     async searchMovieIdsByDirectorIds(directorIds) {
         let movies = [];
         for (let dirId of directorIds) {
@@ -261,6 +272,12 @@ const movie = {
             await mysqlUtils.mysqlQuery(`ROLLBACK;`);
             throw err;
         }
+    },
+
+    async getMovieInfo(movieId) {
+        let res = await movieUtils.getMovieInfo(movieId);
+
+        return res;
     },
 
     async searchMoviesByTitle(movieTitle) {

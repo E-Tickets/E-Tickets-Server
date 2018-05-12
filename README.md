@@ -31,7 +31,13 @@
 
 ### 2.2 API
 
-* [API 文档](https://e-tickets.github.io/Dashboard/api/api.html)
+系统分别对普通用户、影院管理者、系统管理员提供相对应的 API，详细文档请点击下面的链接查看。
+
+* [User API](https://e-tickets.github.io/Dashboard/api/api-user.html)
+
+* [Cinema Owner API](https://e-tickets.github.io/Dashboard/api/api-owner.html)
+
+* [Admin API](https://e-tickets.github.io/Dashboard/api/api-admin.html)
 
 ---
 

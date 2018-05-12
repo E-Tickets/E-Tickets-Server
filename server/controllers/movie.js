@@ -49,6 +49,16 @@ const movie = {
         }
     },
 
+    async getMovieInfo(ctx) {
+        let movieId = ctx.params.movie_id;
+
+        let res = await movieService.getMovieInfo(movieId);
+
+        let httpStatusCode = httpStatus[res.status];
+        ctx.response.status = httpStatusCode;
+        ctx.response.body = res;
+    },
+
     async searchMovies(ctx) {
         let keyWord = ctx.params.key;
 

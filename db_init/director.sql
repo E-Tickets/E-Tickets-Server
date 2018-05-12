@@ -12,5 +12,5 @@ CREATE TABLE `director` (
     `director_name` varchar(64) NOT NULL,
     
     PRIMARY KEY (`director_id`),
-    UNIQUE KEY (`director_name`)
+    KEY (`director_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

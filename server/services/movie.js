@@ -1,6 +1,6 @@
 const movieModel = require('../models/movie');
 
-const formattingDbData = (moviesInfoOrig) => {
+const formattingMovieData = (moviesInfoOrig) => {
     return moviesInfoOrig.map((movie) => {
         return {
             'title': movie.title,
@@ -38,6 +38,24 @@ const movie = {
         return res;
     },
 
+    async getMovieInfo(movieId) {
+        let moviesInfo = await movieModel.getMovieInfo(movieId);
+        moviesInfo = formattingMovieData(moviesInfo);
+
+        let res = {};
+        if (moviesInfo.length > 0) {
+            res.status = 'OK';
+            res.message = 'Find movies.';
+            res.data = moviesInfo[0];
+        } else {
+            res.status = 'NOT_FOUND';
+            res.message = 'Cannot find any movie.';
+            res.data = {};
+        }
+
+        return res;
+    },
+
     async searchMovies(keyWord) {
         let res = {};
         let moviesInfo = [];
@@ -54,7 +72,7 @@ const movie = {
         let moviesByTag = await movieModel.searchMoviesByTag(keyWord);
         moviesInfo = moviesInfo.concat(moviesByTag);
 
-        moviesInfo = formattingDbData(moviesInfo);
+        moviesInfo = formattingMovieData(moviesInfo);
 
         if (moviesInfo.length > 0) {
             res.status = 'OK';
@@ -74,7 +92,7 @@ const movie = {
     async searchMoviesByTitle(titleKey) {
         let res = {};
         let moviesInfo = await movieModel.searchMoviesByTitle(titleKey);
-        moviesInfo = formattingDbData(moviesInfo);
+        moviesInfo = formattingMovieData(moviesInfo);
 
         if (moviesInfo.length > 0) {
             res.status = 'OK';
@@ -94,7 +112,7 @@ const movie = {
     async searchMoviesByDirector(directorKey) {
         let res = {};
         let moviesInfo = await movieModel.searchMoviesByDirector(directorKey);
-        moviesInfo = formattingDbData(moviesInfo);
+        moviesInfo = formattingMovieData(moviesInfo);
 
         if (moviesInfo.length > 0) {
             res.status = 'OK';
@@ -114,7 +132,7 @@ const movie = {
     async searchMoviesByActor(actorKey) {
         let res = {};
         let moviesInfo = await movieModel.searchMoviesByActor(actorKey);
-        moviesInfo = formattingDbData(moviesInfo);
+        moviesInfo = formattingMovieData(moviesInfo);
 
         if (moviesInfo.length > 0) {
             res.status = 'OK';
@@ -134,7 +152,7 @@ const movie = {
     async searchMoviesByTag(tagKey) {
         let res = {};
         let moviesInfo = await movieModel.searchMoviesByTag(tagKey);
-        moviesInfo = formattingDbData(moviesInfo);
+        moviesInfo = formattingMovieData(moviesInfo);
 
         if (moviesInfo.length > 0) {
             res.status = 'OK';

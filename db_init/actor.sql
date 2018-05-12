@@ -12,5 +12,5 @@ CREATE TABLE `actor` (
     `actor_name` varchar(64) NOT NULL,
     
     PRIMARY KEY (`actor_id`),
-    UNIQUE KEY (`actor_name`)
+    KEY (`actor_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
