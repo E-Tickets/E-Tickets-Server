@@ -15,6 +15,10 @@ const config = {
         signed: true,
         rolling: false,
         renew: false 
+    },
+    path: {
+        avatarPath: '/home/qyb225/Documents/Nginx/website/static/images/avatar',
+        posterPath: '/home/qyb225/Documents/Nginx/website/static/images/poster'
     }
 };
 
