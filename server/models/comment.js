@@ -8,7 +8,9 @@ const comment = {
                     VALUES(?, ?, ?, ?, ?);`;
         let values = [username, movieId, isRecommended, commentContent, isSpoiled];
 
-        await mysqlUtils.mysqlQuery(_sql, values);
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res.insertId;
     },
 
     async deleteComment(username, movieId) {
@@ -19,17 +21,10 @@ const comment = {
         await mysqlUtils.mysqlQuery(_sql, values);
     },
 
-    async deleteCommentById(commentId) {
-        let _sql = `DELETE FROM comment
-                    WHERE comment_id=?;`;
-        let values = [commentId];
-
-        await mysqlUtils.mysqlQuery(_sql, values);
-    },
-
-    async searchCommentsByMovieId(movieId) {
+    async searchAllCommentsByMovieId(movieId) {
         let _sql = `SELECT * FROM comment
-                    WHERE movie_id=?;`;
+                    WHERE movie_id=?
+                    ORDER BY time DESC;`;
         let values = [movieId];
 
         let res = await mysqlUtils.mysqlQuery(_sql, values);
@@ -37,7 +32,18 @@ const comment = {
         return res;
     },
 
-    async getCommentsNumByMovieId(movieId) {
+    async searchUnspoiledCommentsByMovieId(movieId) {
+        let _sql = `SELECT * FROM comment
+                    WHERE movie_id=? and not is_spoiled
+                    ORDER BY time DESC;`;
+        let values = [movieId];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res;
+    },
+
+    async getAllCommentsNumByMovieId(movieId) {
         let _sql = `SELECT COUNT(movie_id) AS amount
                     FROM comment
                     WHERE movie_id=?;`;
@@ -45,18 +51,42 @@ const comment = {
 
         let res = await mysqlUtils.mysqlQuery(_sql, values);
 
-        return res;
+        return res[0].amount;
     },
 
-    async searchCommentsByMovieIdPage(movieId, pageId, pageNum) {
+    async getUnspoiledCommentsNumByMovieId(movieId) {
+        let _sql = `SELECT COUNT(movie_id) AS amount
+                    FROM comment
+                    WHERE movie_id=? and not is_spoiled;`
+        let values = [movieId];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res[0].amount;
+    },
+
+    async searchAllCommentsByMovieIdPage(movieId, start, count) {
         let _sql = `SELECT * FROM comment
                     INNER JOIN (
                         SELECT comment_id FROM comment
                         WHERE movie_id=?
-                        ORDER BY time LIMIT ?, ?
+                        ORDER BY time DESC LIMIT ?, ?
+                    ) AS Page USING(comment_id);`;
+        let values = [movieId, start, count];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res;
+    },
+
+    async searchUnspoiledCommentsByMovieIdPage(movieId, start, count) {
+        let _sql = `SELECT * FROM comment
+                    INNER JOIN (
+                        SELECT comment_id FROM comment
+                        WHERE movie_id=? and not is_spoiled
+                        ORDER BY time DESC LIMIT ?, ?
                     ) AS page USING(comment_id);`;
-        let recordsStart = (pageId - 1) * pageNum;
-        let values = [movieId, recordsStart, pageNum];
+        let values = [movieId, start, count];
 
         let res = await mysqlUtils.mysqlQuery(_sql, values);
 
@@ -65,7 +95,8 @@ const comment = {
 
     async searchCommentsByUser(username) {
         let _sql = `SELECT * FROM comment
-                    WHERE username=?;`;
+                    WHERE username=?
+                    ORDER BY time DESC;`;
         let values = [username];
 
         let res = await mysqlUtils.mysqlQuery(_sql, values);
@@ -79,22 +110,18 @@ const comment = {
                     WHERE username=?;`;
         let values = [username];
 
-        let res = mysqlUtils.mysqlQuery(_sql, values);
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
 
-        return res;
+        return res[0].amount;
     },
 
-    async searchCommentsByUserPage(username, pageId, pageNum) {
+    async searchCommentsByUserPage(username, start, count) {
         let _sql = `SELECT * FROM comment
-                    INNER JOIN (
-                        SELECT comment_id FROM comment
-                        WHERE username=?
-                        ORDER BY time LIMIT ?, ?
-                    ) AS page USING(comment_id);`;
-        let recordsStart = (pageId - 1) * pageNum;
-        let values = [username, recordsStart, pageNum];
+                    WHERE username=?
+                    ORDER BY time DESC LIMIT ?, ?;`;
+        let values = [username, start, count];
 
-        let res = mysqlUtils.mysqlQuery(_sql, values);
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
 
         return res;
     }
