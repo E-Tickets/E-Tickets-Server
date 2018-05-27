@@ -20,10 +20,10 @@ router.get('/user/:username',
 router.get('/user/:username/page/:page_id/page-amount/:page_num',
         commentController.searchCommentsByUserPage);
 
-router.get('/all-comments/:movie_id/amount',
+router.get('/all-comments/movieid/:movie_id/amount',
         commentController.getAllCommentsNumByMovieId);
 
-router.get('/unspoiled-comments/:movie_id/amount',
+router.get('/unspoiled-comments/movieid/:movie_id/amount',
         commentController.getUnspoiledCommentsNumByMovieId);
 
 router.get('/user/:username/amount',
