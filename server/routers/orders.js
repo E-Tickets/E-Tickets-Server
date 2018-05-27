@@ -1,10 +1,10 @@
 const router = require('koa-router')();
 const orderController = require('../controllers/order');
 
-router.get('/:username/paidorders', 
+router.get('/:username/paid-orders', 
         orderController.searchPaidOrderByUser);
 
-router.get('/:username/unpaidorders',
+router.get('/:username/unpaid-orders',
         orderController.searchUnpaidOrderByUser);
 
 module.exports = router;
