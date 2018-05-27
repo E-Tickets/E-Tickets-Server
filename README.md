@@ -12,7 +12,7 @@
 
 架构如图：
 
-![Server architecture](https://github.com/E-Tickets/Dashboard/blob/master/doc/etickets-server.png?raw=true)
+![Server architecture](https://github.com/E-Tickets/Dashboard/blob/master/demo/image/etickets-server.png?raw=true)
 
 ---
 
