@@ -8,7 +8,7 @@ router.get('/owner/:owner',
 router.get('/location/:location', 
         cinemaController.searchCinemaByLoc);
 
-router.get('/cinemaname/:cinema_name', 
+router.get('/cinema-name/:cinema_name', 
         cinemaController.searchCinemaByName);
 
 module.exports = router;

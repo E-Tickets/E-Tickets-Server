@@ -1,11 +1,10 @@
 const multer = require('koa-multer');
 
-const avatarPath = '/home/qyb225/Documents/Nginx/website/static/images/avatar';
-const posterPath = '/home/qyb225/Documents/Nginx/website/static/images/poster';
+const config = require('../config');
 
 const storageEngine = {
     avatarEngine: multer.diskStorage({
-        destination: avatarPath,
+        destination: config.path.avatarPath,
         filename: (req, file, cb) => {
             const originalname = file.originalname;
     
@@ -19,7 +18,7 @@ const storageEngine = {
     }),
 
     posterEngine: multer.diskStorage({
-        destination: posterPath,
+        destination: config.path.posterPath,
         filename: (req, file, cb) => {
             const originalname = file.originalname;
     

@@ -144,7 +144,7 @@ const order = {
             res.message = 'Find orders!';
             res.data = ordersInfo;
         } else {
-            res.status = 'NOT_FOUND.';
+            res.status = 'NOT_FOUND';
             res.message = 'Cannot find any paid order.';
             res.data = {};
         }
@@ -162,7 +162,7 @@ const order = {
             res.message = 'Find unpaid orders!';
             res.data = ordersInfo;
         } else {
-            res.status = 'NOT_FOUND.';
+            res.status = 'NOT_FOUND';
             res.message = 'Cannot find any unpaid order.';
             res.data = {};
         }
