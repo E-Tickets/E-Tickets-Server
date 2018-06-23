@@ -13,6 +13,5 @@ CREATE TABLE `tag_movie_map` (
     
     PRIMARY KEY (`tag_id`, `movie_id`),
     FOREIGN KEY (`tag_id`) REFERENCES `tag`(`tag_id`),
-    FOREIGN KEY (`movie_id`) REFERENCES `movie`(`movie_id`),
-    INDEX (`tag_id`)
+    FOREIGN KEY (`movie_id`) REFERENCES `movie`(`movie_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

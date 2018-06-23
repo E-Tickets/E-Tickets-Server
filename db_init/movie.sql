@@ -17,5 +17,5 @@ CREATE TABLE `movie` (
     `status` int(2) NOT NULL DEFAULT 0, /*0 表示未上映，1表示正在热映，2表示下映*/
     
     PRIMARY KEY (`movie_id`),
-    INDEX (`title`)
+    KEY (`status`, `title`(5))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
