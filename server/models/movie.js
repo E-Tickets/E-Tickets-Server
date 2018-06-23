@@ -223,7 +223,7 @@ const movieUtils = {
     },
 
     async searchMoviesByTitle(titleKey) {
-        let _sql = `SELECT title, poster, director, actors, tags
+        let _sql = `SELECT *
                     FROM movie
                     WHERE title like ?;`;
         let values = [titleKey + '%'];
@@ -234,7 +234,7 @@ const movieUtils = {
     async searchMoviesByMovieIds(movieIds) {
         let moviesInfo = [];
         for (let movieId of movieIds) {
-            let _sql = `SELECT title, poster, director, actors, tags
+            let _sql = `SELECT *
                         FROM movie
                         WHERE movie_id=?;`;
             let values = [movieId];
@@ -272,6 +272,15 @@ const movie = {
             await mysqlUtils.mysqlQuery(`ROLLBACK;`);
             throw err;
         }
+    },
+
+    async modifyMovieStatus(movieId, status) {
+        let _sql = `UPDATE movie
+                    SET status=?
+                    WHERE movie_id=?;`;
+        let values = [status, movieId];
+        
+        await mysqlUtils.mysqlQuery(sql, values);
     },
 
     async getMovieInfo(movieId) {
@@ -320,6 +329,16 @@ const movie = {
         }
 
         return moviesInfo;
+    },
+
+    async searchMoviesByStatus(status) {
+        let _sql = `SELECT * FROM movie
+                    WHERE status=?;`;
+        let values = [status];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res;
     }
 };
 

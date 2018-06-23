@@ -14,6 +14,7 @@ CREATE TABLE `movie` (
     `director` varchar(64) NOT NULL,
     `actors` varchar(64) NOT NULL,
     `tags` varchar(64) NOT NULL,
+    `status` int(2) NOT NULL DEFAULT 0, /*0 表示未上映，1表示正在热映，2表示下映*/
     
     PRIMARY KEY (`movie_id`),
     INDEX (`title`)

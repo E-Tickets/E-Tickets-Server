@@ -27,6 +27,27 @@ const movie = {
         }
     },
 
+    async modifyMovieStatus(ctx) {
+        let movieId = ctx.params.movie_id;
+        let status = ctx.request.body.status;
+
+        if (!ctx.session.hasOwnProperty('idInfo')
+            || ctx.session.idInfo.identity !== 'admin') {
+            ctx.response.status = 401;
+            ctx.response.body = {
+                'status': 'UNAUTHORIZED',
+                'message': 'Permission denied. You are not admin',
+                'data': {}
+            };
+        } else {
+            let res = await movieService.modifyMovieStatus(movieId, status);
+            
+            let httpStatusCode = httpStatus[res.status];
+            ctx.response.status = httpStatusCode;
+            ctx.response.body = res;
+        }
+    },
+
     async uploadPoster(ctx) {
         if (!ctx.session.hasOwnProperty('idInfo')
             || ctx.session.idInfo.identity !== 'admin') {
@@ -103,6 +124,16 @@ const movie = {
         let keyWord = ctx.params.tag;
 
         let res = await movieService.searchMoviesByTag(keyWord);
+
+        let httpStatusCode = httpStatus[res.status];
+        ctx.response.status = httpStatusCode;
+        ctx.response.body = res;
+    },
+
+    async searchMoviesByStatus(ctx) {
+        let status = parseInt(ctx.params.status);
+
+        let res = await movieService.searchMoviesByStatus(status);
 
         let httpStatusCode = httpStatus[res.status];
         ctx.response.status = httpStatusCode;

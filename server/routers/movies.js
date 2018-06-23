@@ -6,6 +6,7 @@ router.get('/title/:title', movieController.searchMoviesByTitle);
 router.get('/director/:director', movieController.searchMoviesByDirector);
 router.get('/actor/:actor', movieController.searchMoviesByActor);
 router.get('/tag/:tag', movieController.searchMoviesByTag);
+router.get('/status/:status', movieController.searchMoviesByStatus);
 router.get('/:key', movieController.searchMovies);
 
 module.exports = router;

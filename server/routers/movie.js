@@ -12,6 +12,8 @@ router.post('/', movieController.createMovie);
 
 router.get('/:movie_id', movieController.getMovieInfo);
 
+router.patch('/:movie_id/status', movieController.modifyMovieStatus);
+
 router.post('/poster', upload.single('poster'), 
         movieController.uploadPoster);
 
