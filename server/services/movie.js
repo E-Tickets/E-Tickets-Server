@@ -3,11 +3,14 @@ const movieModel = require('../models/movie');
 const formattingMovieData = (moviesInfoOrig) => {
     return moviesInfoOrig.map((movie) => {
         return {
+            'movie_id': movie.movie_id,
             'title': movie.title,
             'poster': movie.poster,
             'director': movie.director,
             'actors': movie.actors.split('#'),
-            'tags': movie.tags.split('#')
+            'tags': movie.tags.split('#'),
+            'status': movie.status,
+            'comment_amount': movie.comment_amount
         }
     });
 };
@@ -188,6 +191,7 @@ const movie = {
         let res = {};
 
         let moviesInfo = await movieModel.searchMoviesByStatus(status);
+        moviesInfo = formattingMovieData(moviesInfo);
 
         if (moviesInfo.length > 0) {
             res.status = 'OK';
