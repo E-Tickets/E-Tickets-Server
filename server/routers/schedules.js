@@ -8,6 +8,9 @@ router.get('/cinemaid/:cinema_id',
 router.get('/movieid/:movie_id', 
         scheduleController.searchScheduleByMovieId);
 
+router.get('/movieid/:movie_id/cinemaid/:cinema_id',
+        scheduleController.searchScheduleByMovieIdCinemaId);
+
 router.get('/movieid/:movie_id/location/:location',
         scheduleController.searchScheduleByMovieIdLocation);
 
