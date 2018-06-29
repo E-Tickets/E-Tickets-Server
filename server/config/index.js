@@ -17,8 +17,8 @@ const config = {
         renew: false 
     },
     path: {
-        avatarPath: '/home/qyb225/Documents/Nginx/website/static/images/avatar',
-        posterPath: '/home/qyb225/Documents/Nginx/website/static/images/poster'
+        avatarPath: '/home/qyb225/Documents/Nginx/website/images/avatar',
+        posterPath: '/home/qyb225/Documents/Nginx/website/images/poster'
     }
 };
 
