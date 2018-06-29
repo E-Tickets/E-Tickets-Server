@@ -14,6 +14,29 @@ const admin = {
         let httpStatusCode = httpStatus[res.status];
         ctx.response.status = httpStatusCode;
         ctx.response.body = res;
+    },
+
+    async getAdminSelf(ctx) {
+        let username = '';
+        if (ctx.session.hasOwnProperty('idInfo') 
+            && ctx.session.idInfo.identity === 'admin') {
+            username = ctx.session.idInfo.username;
+            ctx.response.status = 200;
+            ctx.response.body = {
+                'status': 'OK',
+                'message': 'Get Admin username',
+                'data': {
+                    'username': username
+                }
+            };
+        } else {
+            ctx.response.status = 401;
+            ctx.response.body = {
+                'status': 'UNAUTHORIZED',
+                'message': 'Permission denied. Please login.',
+                'data': {}
+            };
+        }
     }
 };
 
