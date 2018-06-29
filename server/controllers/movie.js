@@ -80,6 +80,17 @@ const movie = {
         ctx.response.body = res;
     },
 
+    async getAllMovies(ctx) {
+        let page = parseInt(ctx.params.page);
+        let pageSize = parseInt(ctx.params.page_size);
+
+        let res = await movieService.getAllMovies(page, pageSize);
+
+        let httpStatusCode = httpStatus[res.status];
+        ctx.response.status = httpStatusCode;
+        ctx.response.body = res;
+    },
+
     async searchMovies(ctx) {
         let keyWord = ctx.params.key;
 
