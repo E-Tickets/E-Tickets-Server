@@ -74,6 +74,32 @@ const movie = {
         return res;
     },
 
+    async getAllMovies(page, pageSize) {
+        let res = {}
+        
+        start = (page - 1) * pageSize;
+        let amountInfo = await movieModel.getAllMoviesAmount();
+        let movieAmount = amountInfo[0].amount;
+        let moviesInfo = await movieModel.getAllMovies(start, pageSize);
+
+        moviesInfo = formattingMovieData(moviesInfo);
+
+        if (moviesInfo.length > 0) {
+            res.status = 'OK';
+            res.message = 'Find movies.';
+            res.data = {
+                'movie_amount': movieAmount,
+                'movies': moviesInfo
+            };
+        } else {
+            res.status = 'NOT_FOUND';
+            res.message = 'Cannot find any movie.';
+            res.data = {};
+        }
+
+        return res;
+    },
+
     async searchMovies(keyWord) {
         let res = {};
         let moviesInfo = [];

@@ -166,8 +166,8 @@ const movieUtils = {
         let movies = [];
         for (let dirId of directorIds) {
             let _sql = `SELECT movie_id 
-                    FROM director_movie_map
-                    WHERE director_id=?`;
+                        FROM director_movie_map
+                        WHERE director_id=?`;
             let values = [dirId];
 
             let res = await mysqlUtils.mysqlQuery(_sql, values);
@@ -186,8 +186,8 @@ const movieUtils = {
         let movies = [];
         for (let actorId of actorIds) {
             let _sql = `SELECT movie_id 
-                    FROM actor_movie_map
-                    WHERE actor_id=?`;
+                        FROM actor_movie_map
+                        WHERE actor_id=?`;
             let values = [actorId];
 
             let res = await mysqlUtils.mysqlQuery(_sql, values);
@@ -280,7 +280,26 @@ const movie = {
                     WHERE movie_id=?;`;
         let values = [status, movieId];
         
-        await mysqlUtils.mysqlQuery(sql, values);
+        await mysqlUtils.mysqlQuery(_sql, values);
+    },
+
+    async getAllMoviesAmount() {
+        let _sql = `SELECT COUNT(*) AS amount
+                    FROM movie;`
+        let res = await mysqlUtils.mysqlQuery(_sql, []);
+
+        return res;
+    },
+
+    async getAllMovies(start, count) {
+        let _sql = `SELECT *
+                    FROM movie
+                    LIMIT ?, ?;`;
+        let values = [start, count];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res;
     },
 
     async getMovieInfo(movieId) {
