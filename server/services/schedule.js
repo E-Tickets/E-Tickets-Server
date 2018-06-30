@@ -113,8 +113,8 @@ const schedule = {
     },
 
     async searchScheduleByCinemaId(cinemaId) {
-        //let dateRange = scheduleUtils.getThreeDateRange(null);
-        let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 4, 2));
+        let dateRange = scheduleUtils.getThreeDateRange(null);
+        // let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 6, 30));
 
         let schedulesInfo = await scheduleModel.searchScheduleByCinemaId(cinemaId, 
                 dateRange.begin, dateRange.end);
@@ -135,8 +135,8 @@ const schedule = {
     },
 
     async searchScheduleByMovieId(movieId) {
-        //let dateRange = scheduleUtils.getThreeDateRange(null);
-        let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 4, 2));
+        let dateRange = scheduleUtils.getThreeDateRange(null);
+        // let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 6, 30));
 
         let schedulesInfo = await scheduleModel.searchScheduleByMovieId(movieId,
                 dateRange.begin, dateRange.end);
@@ -188,8 +188,8 @@ const schedule = {
     },
 
     async searchScheduleByMovieIdCinemaId(movieId, cinemaId) {
-        //let dateRange = scheduleUtils.getThreeDateRange(null);
-        let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 4, 2));
+        let dateRange = scheduleUtils.getThreeDateRange(null);
+        // let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 6, 30));
 
         let schedulesInfo = await scheduleModel
             .searchScheduleByMovieIdCinemaId(movieId, cinemaId, dateRange.begin, dateRange.end);
@@ -210,8 +210,8 @@ const schedule = {
     },
 
     async searchScheduleByMovieIdLocation(movieId, location) {
-        //let dateRange = scheduleUtils.getThreeDateRange(null);
-        let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 4, 2));
+        let dateRange = scheduleUtils.getThreeDateRange(null);
+        // let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 6, 30));
 
         let schedulesInfo = await scheduleModel
                 .searchScheduleByMovieIdLocation(movieId, location, 
