@@ -13,6 +13,5 @@ CREATE TABLE `actor_movie_map` (
     
     PRIMARY KEY (`actor_id`, `movie_id`),
     FOREIGN KEY (`actor_id`) REFERENCES `actor`(`actor_id`),
-    FOREIGN KEY (`movie_id`) REFERENCES `movie`(`movie_id`),
-    INDEX (`actor_id`)
+    FOREIGN KEY (`movie_id`) REFERENCES `movie`(`movie_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

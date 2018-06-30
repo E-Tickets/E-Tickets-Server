@@ -17,6 +17,29 @@ const user = {
         ctx.response.body = res;
     },
 
+    async getUserSelf(ctx) {
+        let username = '';
+        if (ctx.session.hasOwnProperty('idInfo') 
+            && ctx.session.idInfo.identity === 'user') {
+            username = ctx.session.idInfo.username;
+            ctx.response.status = 200;
+            ctx.response.body = {
+                'status': 'OK',
+                'message': 'Get username',
+                'data': {
+                    'username': username
+                }
+            };
+        } else {
+            ctx.response.status = 401;
+            ctx.response.body = {
+                'status': 'UNAUTHORIZED',
+                'message': 'Permission denied. Please login.',
+                'data': {}
+            };
+        }
+    },
+
     async queryUserInfo(ctx) {
         let username = ctx.params.username || '';
 

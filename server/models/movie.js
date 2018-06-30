@@ -152,9 +152,9 @@ const movieUtils = {
     },
 
     async getMovieInfo(movieId) {
-        let _sql = `SELECT *
-                    FROM movie
-                    WHERE movie_id=?;`;
+        let _sql = `SELECT movie.*, IFNULL(COUNT(comment.comment_id), 0) AS comment_amount
+                    FROM movie LEFT JOIN comment USING(movie_id)
+                    WHERE movie.movie_id=? GROUP BY movie.movie_id;`;
         let values = [movieId];
 
         let res = await mysqlUtils.mysqlQuery(_sql, values);
@@ -166,8 +166,8 @@ const movieUtils = {
         let movies = [];
         for (let dirId of directorIds) {
             let _sql = `SELECT movie_id 
-                    FROM director_movie_map
-                    WHERE director_id=?`;
+                        FROM director_movie_map
+                        WHERE director_id=?`;
             let values = [dirId];
 
             let res = await mysqlUtils.mysqlQuery(_sql, values);
@@ -186,8 +186,8 @@ const movieUtils = {
         let movies = [];
         for (let actorId of actorIds) {
             let _sql = `SELECT movie_id 
-                    FROM actor_movie_map
-                    WHERE actor_id=?`;
+                        FROM actor_movie_map
+                        WHERE actor_id=?`;
             let values = [actorId];
 
             let res = await mysqlUtils.mysqlQuery(_sql, values);
@@ -206,8 +206,8 @@ const movieUtils = {
         let movies = [];
         for (let tagId of tagIds) {
             let _sql = `SELECT movie_id 
-                    FROM tag_movie_map
-                    WHERE tag_id=?`;
+                        FROM tag_movie_map
+                        WHERE tag_id=?`;
             let values = [tagId];
 
             let res = await mysqlUtils.mysqlQuery(_sql, values);
@@ -223,26 +223,26 @@ const movieUtils = {
     },
 
     async searchMoviesByTitle(titleKey) {
-        let _sql = `SELECT title, poster, director, actors, tags
-                    FROM movie
-                    WHERE title like ?;`;
+        let _sql = `SELECT movie.*, IFNULL(COUNT(comment.comment_id), 0) AS comment_amount
+                    FROM movie LEFT JOIN comment USING(movie_id)
+                    WHERE movie.title like ? GROUP BY movie.movie_id;`;
         let values = [titleKey + '%'];
         let res = await mysqlUtils.mysqlQuery(_sql, values);
         return res;
     },
 
     async searchMoviesByMovieIds(movieIds) {
-        let moviesInfo = [];
-        for (let movieId of movieIds) {
-            let _sql = `SELECT title, poster, director, actors, tags
-                        FROM movie
-                        WHERE movie_id=?;`;
-            let values = [movieId];
-
-            let movieInfo = await mysqlUtils.mysqlQuery(_sql, values);
-
-            moviesInfo = moviesInfo.concat(movieInfo);
+        let _sql = `SELECT movie.*, IFNULL(COUNT(comment.comment_id), 0) AS comment_amount
+                    FROM movie LEFT JOIN comment USING(movie_id)
+                    WHERE movie.movie_id in (`;
+        for (let i = 0; i < movieIds.length - 1; ++i) {
+            _sql += `?, `;
         }
+        _sql += `?) GROUP BY movie.movie_id`;
+
+        let values = movieIds;
+
+        let moviesInfo = await mysqlUtils.mysqlQuery(_sql, values);
 
         return moviesInfo;
     }
@@ -272,6 +272,34 @@ const movie = {
             await mysqlUtils.mysqlQuery(`ROLLBACK;`);
             throw err;
         }
+    },
+
+    async modifyMovieStatus(movieId, status) {
+        let _sql = `UPDATE movie
+                    SET status=?
+                    WHERE movie_id=?;`;
+        let values = [status, movieId];
+        
+        await mysqlUtils.mysqlQuery(_sql, values);
+    },
+
+    async getAllMoviesAmount() {
+        let _sql = `SELECT COUNT(*) AS amount
+                    FROM movie;`
+        let res = await mysqlUtils.mysqlQuery(_sql, []);
+
+        return res;
+    },
+
+    async getAllMovies(start, count) {
+        let _sql = `SELECT *
+                    FROM movie
+                    LIMIT ?, ?;`;
+        let values = [start, count];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res;
     },
 
     async getMovieInfo(movieId) {
@@ -320,6 +348,17 @@ const movie = {
         }
 
         return moviesInfo;
+    },
+
+    async searchMoviesByStatus(status) {
+        let _sql = `SELECT movie.*, IFNULL(COUNT(comment.comment_id), 0) AS comment_amount
+                    FROM movie LEFT JOIN comment USING(movie_id)
+                    WHERE movie.status=? GROUP BY movie.movie_id;`;
+        let values = [status];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res;
     }
 };
 

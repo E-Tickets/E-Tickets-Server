@@ -11,6 +11,8 @@ const upload = multer({
 /*Register*/
 router.post('/', userController.register);
 
+router.get('/self', userController.getUserSelf);
+
 /*Get/Update User-Info*/
 router.get('/:username', userController.queryUserInfo);
 router.patch('/:username', userController.updateUserInfo);

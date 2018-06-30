@@ -40,7 +40,7 @@ const schedule = {
     async searchScheduleByCinemaId(cinemaId, timeBegin, timeEnd) {
         let _sql = `SELECT *
                     FROM movie_schedule
-                    WHERE cinema_id=? and (time>=? and time<=?)
+                    WHERE cinema_id=? and time BETWEEN ? and ?
                     ORDER BY movie_id, time;`;
         let values = [cinemaId, timeBegin, timeEnd];
 
@@ -50,11 +50,28 @@ const schedule = {
     },
 
     async searchScheduleByMovieId(movieId, timeBegin, timeEnd) {
-        let _sql = `SELECT *
-                    FROM movie_schedule
-                    WHERE movie_id=? and (time>=? and time <=?)
+        let _sql = `SELECT movie_schedule.*, cinema.cinema_name 
+                    FROM movie_schedule, cinema
+                    WHERE movie_schedule.movie_id=? 
+                          and movie_schedule.cinema_id=cinema.cinema_id 
+                          and time BETWEEN ? and ?
                     ORDER BY cinema_id, time;`;
         let values = [movieId, timeBegin, timeEnd];
+
+        let res = await mysqlUtils.mysqlQuery(_sql, values);
+
+        return res;
+    },
+
+    async searchScheduleByMovieIdCinemaId(movieId, cinemaId, timeBegin, timeEnd) {
+        let _sql = `SELECT movie_schedule.*, cinema.cinema_name 
+                    FROM movie_schedule, cinema
+                    WHERE movie_schedule.movie_id=?
+                          and movie_schedule.cinema_id=?
+                          and movie_schedule.cinema_id=cinema.cinema_id 
+                          and time BETWEEN ? and ?
+                    ORDER BY cinema_id, time;`;
+        let values = [movieId, cinemaId, timeBegin, timeEnd];
 
         let res = await mysqlUtils.mysqlQuery(_sql, values);
 

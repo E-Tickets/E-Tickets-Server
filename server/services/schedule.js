@@ -113,8 +113,8 @@ const schedule = {
     },
 
     async searchScheduleByCinemaId(cinemaId) {
-        //let dateRange = scheduleUtils.getThreeDateRange(null);
-        let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 4, 2));
+        let dateRange = scheduleUtils.getThreeDateRange(null);
+        // let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 6, 30));
 
         let schedulesInfo = await scheduleModel.searchScheduleByCinemaId(cinemaId, 
                 dateRange.begin, dateRange.end);
@@ -135,12 +135,65 @@ const schedule = {
     },
 
     async searchScheduleByMovieId(movieId) {
-        //let dateRange = scheduleUtils.getThreeDateRange(null);
-        let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 4, 2));
+        let dateRange = scheduleUtils.getThreeDateRange(null);
+        // let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 6, 30));
 
         let schedulesInfo = await scheduleModel.searchScheduleByMovieId(movieId,
                 dateRange.begin, dateRange.end);
+        
+        let cinemaScheudlesInfo = [];
 
+        for (let schedule of schedulesInfo) {
+            let flag = 0;
+            for (let cinemaSchedule of cinemaScheudlesInfo) {
+                if (schedule.cinema_id === cinemaSchedule.cinema_id) {
+                    cinemaSchedule.schedules.push({
+                        schedule_id: schedule.schedule_id,
+                        hall_id: schedule.hall_id,
+                        time: schedule.time,
+                        price: schedule.price
+                    });
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag === 0) {
+                cinemaScheudlesInfo.push({
+                    cinema_id: schedule.cinema_id,
+                    movie_id: schedule.movie_id,
+                    cinema_name: schedule.cinema_name,
+                    schedules: [{
+                        schedule_id: schedule.schedule_id,
+                        hall_id: schedule.hall_id,
+                        time: schedule.time,
+                        price: schedule.price
+                    }]
+                });
+            }
+        }
+
+        let res = {};
+
+        if (cinemaScheudlesInfo.length > 0) {
+            res.status = 'OK';
+            res.message = 'Get schedules successfully.';
+            res.data = cinemaScheudlesInfo;
+        } else {
+            res.status = 'NOT_FOUND';
+            res.message = 'Cannot find any schedules.';
+            res.data = {};
+        }
+
+        return res;
+    },
+
+    async searchScheduleByMovieIdCinemaId(movieId, cinemaId) {
+        let dateRange = scheduleUtils.getThreeDateRange(null);
+        // let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 6, 30));
+
+        let schedulesInfo = await scheduleModel
+            .searchScheduleByMovieIdCinemaId(movieId, cinemaId, dateRange.begin, dateRange.end);
+        
         let res = {};
 
         if (schedulesInfo.length > 0) {
@@ -157,8 +210,8 @@ const schedule = {
     },
 
     async searchScheduleByMovieIdLocation(movieId, location) {
-        //let dateRange = scheduleUtils.getThreeDateRange(null);
-        let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 4, 2));
+        let dateRange = scheduleUtils.getThreeDateRange(null);
+        // let dateRange = scheduleUtils.getThreeDateRange(new Date(2018, 6, 30));
 
         let schedulesInfo = await scheduleModel
                 .searchScheduleByMovieIdLocation(movieId, location, 

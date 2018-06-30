@@ -15,5 +15,5 @@ CREATE TABLE `cinema` (
     
     PRIMARY KEY (`cinema_id`),
     FOREIGN KEY (`owner`) REFERENCES `cinema_owner`(`username`),
-    KEY (`cinema_location`)
+    KEY (`cinema_location`, `cinema_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

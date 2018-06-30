@@ -18,7 +18,7 @@ CREATE TABLE `comment` (
     
     PRIMARY KEY (`comment_id`),
     UNIQUE KEY (`username`, `movie_id`),
-    KEY (`time`),
     FOREIGN KEY (`username`) REFERENCES `user`(`username`),
-    FOREIGN KEY (`movie_id`) REFERENCES `movie`(`movie_id`)
+    FOREIGN KEY (`movie_id`) REFERENCES `movie`(`movie_id`),
+    KEY(`movie_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

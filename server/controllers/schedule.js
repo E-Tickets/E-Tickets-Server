@@ -63,6 +63,17 @@ const schedule = {
         ctx.response.body = res;
     },
 
+    async searchScheduleByMovieIdCinemaId(ctx) {
+        let movieId = ctx.params.movie_id;
+        let cinemaId = ctx.params.cinema_id;
+
+        let res = await scheduleService.searchScheduleByMovieIdCinemaId(movieId, cinemaId);
+
+        let httpStatusCode = httpStatus[res.status];
+        ctx.response.status = httpStatusCode;
+        ctx.response.body = res;
+    },
+
     async searchScheduleByMovieIdLocation(ctx) {
         let movieId = ctx.params.movie_id;
         let location = ctx.params.location;
